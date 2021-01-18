@@ -1,0 +1,7 @@
+name: RepeatCommands
+author: VisenGames
+version: 1.0
+main: games.visen.repeatcommands.Main
+commands:
+  repeatcommand:
+    aliases: [rc]
