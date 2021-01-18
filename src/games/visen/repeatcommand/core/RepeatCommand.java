@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class RepeatCommand {
@@ -59,11 +58,12 @@ public class RepeatCommand {
 
     public static void load(ConfigurationSection configSection) {
         try {
-            RepeatCommandPlayer repeatCommandPlayer = RepeatCommandPlayer.getRepeatCommandPlayer(Bukkit.getOfflinePlayer(UUID.fromString(Objects.requireNonNull(configSection.getString("player-uuid")))));
+            RepeatCommandPlayer repeatCommandPlayer = RepeatCommandPlayer.getRepeatCommandPlayer(Bukkit.getOfflinePlayer(UUID.fromString(configSection.getString("player-uuid"))));
             String command = configSection.getString("command");
             boolean active = configSection.getBoolean("active");
             int ticks = configSection.getInt("ticks");
             RepeatCommand repeatCommand = new RepeatCommand(command, repeatCommandPlayer);
+            repeatCommandPlayer.addCommand(repeatCommand);
             if(active) {
                 repeatCommand.activate(ticks);
             }

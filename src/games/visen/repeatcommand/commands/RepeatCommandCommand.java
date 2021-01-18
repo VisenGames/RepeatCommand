@@ -25,30 +25,40 @@ public class RepeatCommandCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(sender.hasPermission("repeatcommand.use") && sender instanceof Player) {
             if(args.length > 0) {
-                if(args[0].equals("add")) {
-                    StringBuilder commandBuilder = new StringBuilder();
-                    for(int i = 1; i < args.length; i++) {
-                        commandBuilder.append(args[i]);
-                    }
-                    String command = commandBuilder.toString();
-                    RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).addCommand(command);
-                } else if (args[0].equals("remove")) {
-                    RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).removeCommand(Integer.parseInt(args[1]));
-                } else if (args[0].equals("start")) {
-                    RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).startCommand(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-                } else if (args[0].equals("stop")) {
-                    RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).stopCommand(Integer.parseInt(args[1]));
-                }  else if (args[0].equals("list")) {
-                    LinkedList<RepeatCommand> repeatCommands = RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).getRepeatCommands();
-                    for(int i = 0; i < repeatCommands.size(); i++) {
-                        String message;
-                        if(repeatCommands.get(i).isActive()) {
-                            message = "&c[&a" + i + "&c] &e Command: |" + repeatCommands.get(i).getCommand() + "| &aActive";
-                        } else {
-                            message = "&c[&a" + i + "&c] &e Command: |" + repeatCommands.get(i).getCommand() + "| &cNot Active";
+                switch (args[0]) {
+                    case "add":
+                        StringBuilder commandBuilder = new StringBuilder();
+                        for (int i = 1; i < args.length; i++) {
+                            commandBuilder.append(args[i]).append(" ");
                         }
-                        Utils.message(sender, message);
-                    }
+                        String command = commandBuilder.toString();
+                        RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).addCommand(command);
+                        Utils.message(sender, "&aAdded command: " + command);
+                        break;
+                    case "remove":
+                        RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).removeCommand(Integer.parseInt(args[1]));
+                        Utils.message(sender, "&cRemoved command!");
+                        break;
+                    case "start":
+                        RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).startCommand(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+                        Utils.message(sender, "&aStarted command!");
+                        break;
+                    case "stop":
+                        RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).stopCommand(Integer.parseInt(args[1]));
+                        Utils.message(sender, "&cStopped command!");
+                        break;
+                    case "list":
+                        LinkedList<RepeatCommand> repeatCommands = RepeatCommandPlayer.getRepeatCommandPlayer((Player) sender).getRepeatCommands();
+                        for (int i = 0; i < repeatCommands.size(); i++) {
+                            String message;
+                            if (repeatCommands.get(i).isActive()) {
+                                message = "&c[&a" + i + "&c] &e Command: |" + repeatCommands.get(i).getCommand() + "| &aActive";
+                            } else {
+                                message = "&c[&a" + i + "&c] &e Command: |" + repeatCommands.get(i).getCommand() + "| &cNot Active";
+                            }
+                            Utils.message(sender, message);
+                        }
+                        break;
                 }
             }
         } else {

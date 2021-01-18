@@ -3,6 +3,7 @@ package games.visen.repeatcommand.core;
 import games.visen.repeatcommand.data.Storage;
 import org.bukkit.OfflinePlayer;
 
+
 import java.util.LinkedList;
 
 public class RepeatCommandPlayer {
@@ -20,10 +21,12 @@ public class RepeatCommandPlayer {
         repeatCommands.add(new RepeatCommand(command, this));
     }
 
+    public void addCommand(RepeatCommand command) { repeatCommands.add(command); }
+
     public void removeCommand(int id) {
         if(id < repeatCommands.size()) {
             repeatCommands.get(id).deactivate();
-            repeatCommands.remove(id);
+            repeatCommands.remove(repeatCommands.get(id));
         }
     }
 
